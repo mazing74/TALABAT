@@ -1,0 +1,22 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Talabat.Core.Entites;
+using Talabat.Core.Specfcation;
+
+namespace Talabat.Core.Interfaces
+{
+    public interface IGenaricRepository<T> where T :BaseEntity
+    {
+        Task<IReadOnlyList<T>> GetAllSpec(ISpecification<T> spec);
+        Task<T?> GetByIdSpec(ISpecification<T> spec);
+        Task AddAsync(T entity);
+        void Ubdate(T entity);
+        void Delete(T entity);
+        Task<int> SaveChangesAsync();
+
+
+    }
+}
