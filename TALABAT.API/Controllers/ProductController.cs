@@ -5,6 +5,7 @@ using Talabat.Core.Entites;
 using Talabat.Core.Interfaces;
 using Talabat.Core.Specfcation;
 using TALABAT.API.DTO_s;
+using TALABAT.API.Errors;
 
 namespace TALABAT.API.Controllers
 {
@@ -20,6 +21,7 @@ namespace TALABAT.API.Controllers
         }
         //get all 
         [HttpGet]
+        [ProducesResponseType(typeof(ProductToReturnDto), StatusCodes.Status200OK)]
         public async Task<ActionResult<IReadOnlyList<ProductToReturnDto>>> GetAllWithSpec()
         {
             var spec = new ProductWithCategory();
@@ -28,12 +30,16 @@ namespace TALABAT.API.Controllers
             return Ok(MappedProducts);
         }
         [HttpGet("{id}")]
+        [ProducesResponseType(typeof(ProductToReturnDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
         public async Task<ActionResult<ProductToReturnDto>> GetByIdWithSpec(int id)
         {
             var spec = new ProductWithCategory(id);
             var product =  await _productRepository.GetByIdSpec(spec);
+            if (product ==null)
+                return NotFound(new ApiResponse(404));
+            
             var MappedProducts = _mapper.Map<Product, ProductToReturnDto>(product);
-
             return Ok(MappedProducts);
         
         }
