@@ -43,9 +43,10 @@ namespace TALABAT.API
                 logger.LogError(ex, "An error occurred while migrating the database.");
 
             }
-            #endregion
+            #endregion 
 
             #region Configure the HTTP request pipeline
+            //app da el kestral nfso//
             //Extension Method In My App That Had all middlewares
             app.UseMiddlewaresPipeline();
             #endregion
