@@ -12,13 +12,13 @@ namespace TALABAT.API
         {
             var builder = WebApplication.CreateBuilder(args);
 
+
             // ── Database ────────────────────── Extension Method 
             builder.Services.AddDatabaseServices(builder.Configuration);
 
             // ── AppService ────────────────────── Extension Method 
             builder.Services.AddAppServices();
 
-            builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();

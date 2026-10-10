@@ -23,10 +23,11 @@ namespace Talabat.Repository.Repositories
 
         public void Delete(T entity) =>
            _context.Set<T>().Remove(entity);
-
-        public void Ubdate(T entity) =>
-         _context.Set<T>().Update(entity);
-
+        public void Update(T entity)
+        {
+            _context.Set<T>().Attach(entity);
+            _context.Entry(entity).State = EntityState.Modified;
+        }
         public async Task<IReadOnlyList<T>> GetAllSpec(ISpecification<T> spec)
         {
             return await ApplySpecification(spec).ToListAsync();
