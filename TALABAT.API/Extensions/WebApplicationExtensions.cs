@@ -1,4 +1,6 @@
-﻿namespace TALABAT.API.Extensions
+﻿using TALABAT.API.MiddleWares;
+
+namespace TALABAT.API.Extensions
 {
     public static class WebApplicationExtensions
     {
@@ -8,6 +10,7 @@
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
+                app.UseMiddleware<ExceptionMiddleWare>();
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }

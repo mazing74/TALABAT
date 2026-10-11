@@ -32,6 +32,10 @@ namespace Talabat.Repository.Repositories
         {
             return await ApplySpecification(spec).ToListAsync();
         }
+        public async Task<IReadOnlyList<T>> GetAllAsync()
+        {
+            return await _context.Set<T>().ToListAsync();
+        }
 
         public async Task<T?> GetByIdSpec(ISpecification<T> spec)
         {
@@ -40,7 +44,7 @@ namespace Talabat.Repository.Repositories
 
         public Task<int> SaveChangesAsync() => _context.SaveChangesAsync();
        
-        public IQueryable<T> ApplySpecification (ISpecification<T> spec) 
+        private IQueryable<T> ApplySpecification (ISpecification<T> spec) 
         {
             return SpecificationEvalutor<T>.GetQuery(_context.Set<T>(), spec);
         

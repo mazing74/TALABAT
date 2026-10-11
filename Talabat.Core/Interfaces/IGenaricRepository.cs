@@ -12,8 +12,9 @@ namespace Talabat.Core.Interfaces
     {
         Task<IReadOnlyList<T>> GetAllSpec(ISpecification<T> spec);
         Task<T?> GetByIdSpec(ISpecification<T> spec);
+        Task<IReadOnlyList<T>> GetAllAsync();
         Task AddAsync(T entity);
-        void Ubdate(T entity);
+        void Update(T entity);
         void Delete(T entity);
         Task<int> SaveChangesAsync();
 

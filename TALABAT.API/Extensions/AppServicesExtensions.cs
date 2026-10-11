@@ -12,7 +12,7 @@ namespace TALABAT.API.Extensions
         {
              Services.AddControllers();
 
-            Services.AddScoped<IGenaricRepository<Product>, GenaricRepository<Product>>();
+            Services.AddScoped(typeof(IGenaricRepository<>),typeof(GenaricRepository<>));
 
 
             //Why GetAssemblies()? This tells AutoMapper to scan ALL your projects for classes that inherit from Profile
