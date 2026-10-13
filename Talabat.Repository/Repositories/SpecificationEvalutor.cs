@@ -14,9 +14,18 @@ namespace Talabat.Repository.Repositories
       public static IQueryable<T> GetQuery(IQueryable<T> inputquery,ISpecification<T> specification)
         {
             var query = inputquery;
-
+        
             if (specification.Criteria is not null)
                 query = query.Where(specification.Criteria);
+
+            if (specification.OrderBy is not null)
+                query = query.OrderBy(specification.OrderBy);
+
+            if (specification.OrderByDesc is not null)
+                query = query.OrderByDescending(specification.OrderByDesc);
+
+            if (specification.IsPaginationEnabled)
+                query = query.Skip(specification.Skip).Take(specification.Take);
 
             query = specification.Includes.Aggregate(query, (current, include) => current.Include(include));
 

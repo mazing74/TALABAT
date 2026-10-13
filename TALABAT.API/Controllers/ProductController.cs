@@ -25,9 +25,9 @@ namespace TALABAT.API.Controllers
         //get all 
         [HttpGet]
         [ProducesResponseType(typeof(ProductToReturnDto), StatusCodes.Status200OK)]
-        public async Task<ActionResult<IReadOnlyList<ProductToReturnDto>>> GetAllWithSpec()
+        public async Task<ActionResult<IReadOnlyList<ProductToReturnDto>>> GetAllWithSpec([FromQuery] ProductSpecParams parameters)
         {
-            var spec = new ProductWithCategory();
+            var spec = new ProductWithCategory(parameters);
             var products = await _productRepository.GetAllSpec(spec);
             var MappedProducts = _mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductToReturnDto>>(products);
             return Ok(MappedProducts);
