@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Talabat.Core.Entites;
 using Talabat.Core.Interfaces;
+using Talabat.Core.Services;
 using Talabat.Repository.Repositories;
+using Talabat.Service;
 using TALABAT.API.Errors;
 
 namespace TALABAT.API.Extensions
@@ -12,12 +14,17 @@ namespace TALABAT.API.Extensions
         {
              Services.AddControllers();
 
+            // ── Repositories ──────────────────────────────────────
             Services.AddScoped(typeof(IGenaricRepository<>),typeof(GenaricRepository<>));
+            Services.AddScoped(typeof(IBasketRepository),typeof(BasketRepository));
 
+            //--------Services----------------------
+            Services.AddScoped(typeof(ITokenService), typeof(TokenService));
 
+            // ── AutoMapper ────────────────────────────────────────
+            Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             //Why GetAssemblies()? This tells AutoMapper to scan ALL your projects for classes that inherit from Profile
             //— so it finds any one automatically.
-            Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             #region HandleValidationError
             // ── Validation Error Response ─────────────────────────

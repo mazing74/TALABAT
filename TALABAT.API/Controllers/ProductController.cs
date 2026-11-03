@@ -5,6 +5,7 @@ using Talabat.Core.Interfaces;
 using Talabat.Core.Specfcation;
 using TALABAT.API.DTO_s;
 using TALABAT.API.Errors;
+using TALABAT.API.Helpers;
 
 namespace TALABAT.API.Controllers
 {
@@ -25,12 +26,16 @@ namespace TALABAT.API.Controllers
         //get all 
         [HttpGet]
         [ProducesResponseType(typeof(ProductToReturnDto), StatusCodes.Status200OK)]
-        public async Task<ActionResult<IReadOnlyList<ProductToReturnDto>>> GetAllWithSpec([FromQuery] ProductSpecParams parameters)
+        public async Task<ActionResult<Pagination<ProductToReturnDto>>> GetAllWithSpec([FromQuery] ProductSpecParams parameters)
         {
             var spec = new ProductWithCategory(parameters);
             var products = await _productRepository.GetAllSpec(spec);
             var MappedProducts = _mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductToReturnDto>>(products);
-            return Ok(MappedProducts);
+                
+            var CountSpec = new ProductWithFiltertaionForCountAsync(parameters);
+            var Count = await _productRepository.GetCountWithSpecAsync(CountSpec);
+
+            return Ok(new Pagination<ProductToReturnDto>(parameters.PageSize, parameters.PageIndex, Count, MappedProducts ));
         }
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(ProductToReturnDto), StatusCodes.Status200OK)]

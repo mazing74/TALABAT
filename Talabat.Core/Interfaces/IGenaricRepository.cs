@@ -18,6 +18,8 @@ namespace Talabat.Core.Interfaces
         void Delete(T entity);
         Task<int> SaveChangesAsync();
 
+        public Task<int> GetCountWithSpecAsync(ISpecification<T> spec);
+
 
     }
 }

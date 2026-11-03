@@ -11,7 +11,7 @@ namespace TALABAT.API.Controllers
     {
         public ActionResult Error(int code)
         {
-            return NotFound(new ApiResponse(code, "This Request Has No Endpoints Matched"));
+            return NotFound(new ApiResponse(code));
         }
 
     }

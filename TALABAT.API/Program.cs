@@ -1,7 +1,10 @@
 
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Talabat.Core.Entites.Identity;
 using Talabat.Repository;
 using Talabat.Repository.Data.DataSeed;
+using Talabat.Repository.Identity;
 using TALABAT.API.Extensions;
 
 namespace TALABAT.API
@@ -16,12 +19,17 @@ namespace TALABAT.API
             // ── Database ────────────────────── Extension Method 
             builder.Services.AddDatabaseServices(builder.Configuration);
 
-            // ── AppService ────────────────────── Extension Method 
-            builder.Services.AddAppServices();
+            // ── ADD Microsoft Identity ────────────Extension Method 
+            builder.Services.AddIdentityServices(builder.Configuration);
 
+            // ── Swagger WITH JWT support ────────────────Extension Method
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            // ── AppService ────────────────────── Extension Method 
+            builder.Services.AddAppServices();
+
 
             var app = builder.Build();
 
@@ -34,6 +42,12 @@ namespace TALABAT.API
                 var dbcontext = services.GetRequiredService<TalabatContext>();
                 await dbcontext.Database.MigrateAsync();
 
+                var IdentityDbContext = services.GetRequiredService<AppIdentityDbContext>();
+                await IdentityDbContext.Database.MigrateAsync();
+                var userManger = services.GetRequiredService<UserManager<AppUser>>();
+
+
+                await AppIdentityDbContextSeed.SeedUserAsync(userManger);
                 await TalabatSeed.seedAsync(dbcontext);
 
             }

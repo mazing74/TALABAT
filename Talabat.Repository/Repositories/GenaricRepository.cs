@@ -50,8 +50,9 @@ namespace Talabat.Repository.Repositories
         
         }
 
-     
-
-        
+        public async Task<int> GetCountWithSpecAsync(ISpecification<T> spec)
+        {
+            return await ApplySpecification(spec).CountAsync();
+        }
     }
 }
