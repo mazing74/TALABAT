@@ -1,5 +1,6 @@
 ﻿using System.Text.Json;
 using Talabat.Core.Entites;
+using Talabat.Core.Entites.OrderAggregation;
 
 namespace Talabat.Repository.Data.DataSeed
 {
@@ -47,6 +48,21 @@ namespace Talabat.Repository.Data.DataSeed
                 {
                     foreach (var product in products)
                         await context.Set<Product>().AddAsync(product);
+
+                    await context.SaveChangesAsync();
+
+                }
+
+            }
+
+            if (context.DeliveryMethod.Any() == false)
+            {
+                var delvirydata = File.ReadAllText("../Talabat.Repository/Data/DataSeed/delivery.json");
+                var delviry = JsonSerializer.Deserialize<List<DeliveryMethod>>(delvirydata);
+                if (delviry?.Count > 0)
+                {
+                    foreach (var delv in delviry)
+                        await context.Set<DeliveryMethod>().AddAsync(delv);
 
                     await context.SaveChangesAsync();
 
