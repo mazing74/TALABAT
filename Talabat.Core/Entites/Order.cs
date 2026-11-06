@@ -14,7 +14,7 @@ namespace Talabat.Core.Entites
         }
         public Order()
         {
-                
+                 
         }
 
         public string BuyerEmail { get; set; }

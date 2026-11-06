@@ -54,5 +54,10 @@ namespace Talabat.Repository.Repositories
         {
             return await ApplySpecification(spec).CountAsync();
         }
+
+        public async Task<T> GetByIdAsync(int id)
+        {
+            return  await  _context.Set<T>().FindAsync(id);
+        }
     }
 }
