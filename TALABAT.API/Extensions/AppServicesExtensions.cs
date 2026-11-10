@@ -15,11 +15,13 @@ namespace TALABAT.API.Extensions
              Services.AddControllers();
 
             // ── Repositories ──────────────────────────────────────
+            Services.AddScoped<IUnitOfWork, UnitOfWork>();
             Services.AddScoped(typeof(IGenaricRepository<>),typeof(GenaricRepository<>));
             Services.AddScoped(typeof(IBasketRepository),typeof(BasketRepository));
 
             //--------Services----------------------
             Services.AddScoped(typeof(ITokenService), typeof(TokenService));
+            Services.AddScoped(typeof(IOrderService), typeof(OrderService));
 
             // ── AutoMapper ────────────────────────────────────────
             Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
